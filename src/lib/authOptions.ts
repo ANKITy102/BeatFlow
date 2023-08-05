@@ -33,8 +33,8 @@ export const authOptions: NextAuthOptions = {
     }),
     GitHubProvider({
       clientId: process.env.GITHUB_ID!,
-      clientSecret: process.env.GITHUB_SECRET!
-    })
+      clientSecret: process.env.GITHUB_SECRET!,
+    }),
   ],
   callbacks: {
     async session({ session }) {
@@ -69,25 +69,20 @@ export const authOptions: NextAuthOptions = {
         } catch (error) {
           return false;
         }
-      }
-      else if(account?.provider === "github"){
+      } else if (account?.provider === "github") {
         try {
-          // await connectDB();
-          console.log(profile?.name);
-          console.log(profile?.image);
-          console.log(profile?.email);
-          // const userExists = await User.findOne({
-          //   email: profile?.email,
-          // });
+          await connectDB();
+          const userExists = await User.findOne({
+            email: profile?.email,
+          });
 
           // //if not create a user
-          // if (!userExists) {
-          //   await User.create({
-          //     email: profile?.email,
-          //     name: profile?.name,
-          //     image: profile?.image,
-          //   });
-          // }
+          if (!userExists) {
+            await User.create({
+              email: profile?.email,
+              name: profile?.name, 
+            });
+          }
 
           return true;
         } catch (error) {

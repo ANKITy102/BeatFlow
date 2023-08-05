@@ -6,11 +6,5 @@ type message = {
 };
 export async function GET(req: Request, res: Response) {
   await connectDB();
-  const user = await User.create({
-    email: "ankit@gmail.com",
-    username: "ankit",
-    gender: "male",
-    password: "ankitsdfsdf",
-  });
-  return user;
+  return new Response("Welcome to beatFlow");
 }
