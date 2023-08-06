@@ -20,6 +20,9 @@ declare module "next-auth" {
     //   // Add other properties as needed
     // };
   }
+
+
+
   interface Session {
     user: UserType & {
       id: UserId;

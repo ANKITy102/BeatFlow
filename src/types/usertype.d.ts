@@ -1,8 +1,16 @@
 interface UserType {
   _id: string;
-  name: String;
-  email: String;
-  password?: String;
-  gender?: String;
-  image?: String;
+  name: string;
+  email: string;
+  password?: string;
+  gender?: string;
+  image?: string;
+}
+
+interface UserType2 {
+  name: string;
+  email: string;
+  password?: string;
+  gender?: string;
+  image?: string;
 }

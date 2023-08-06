@@ -2,6 +2,7 @@ import { NextAuthOptions } from "next-auth";
 
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { connectDB } from "@/utils/connectDB";
 import User from "@/models/User";
 
@@ -24,7 +25,7 @@ export function getGoogleCredentials() {
 
 export const authOptions: NextAuthOptions = {
   pages: {
-    signIn: "/login",
+    error: "/login",
   },
   providers: [
     GoogleProvider({
@@ -80,7 +81,7 @@ export const authOptions: NextAuthOptions = {
           if (!userExists) {
             await User.create({
               email: profile?.email,
-              name: profile?.name, 
+              name: profile?.name,
             });
           }
 

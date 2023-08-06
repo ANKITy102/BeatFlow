@@ -4,7 +4,6 @@ import Link from "next/link";
 export default function Home() {
   const navigation = [
     { title: "About", path: "javascript:void(0)" },
-    { title: "Careers", path: "javascript:void(0)" },
   ];
   return (
     <div className="h-screen bg-gray-900">

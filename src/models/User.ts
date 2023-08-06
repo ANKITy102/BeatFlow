@@ -22,6 +22,7 @@ const UserSchema = new Schema({
   gender: {
     type: String,
   },
+  playlist: [{ type: Schema.Types.ObjectId }],
 });
 
 const User = models?.User || model("User", UserSchema);
