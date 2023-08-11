@@ -7,12 +7,12 @@ import { Context } from "../ContextProvider";
 interface HamburgerProps {}
 
 const HamburgerIcon: FC<HamburgerProps> = ({}) => {
-    const {isOpen, setOpen} = useContext(Context);
-    const sidebarHandler = () => {
-        setOpen((prev) => !prev);
-    }
+  const { isOpen, setOpen } = useContext(Context);
+  const sidebarHandler = () => {
+    setOpen((prev) => !prev);
+  };
   return (
-    <div className="fixed right-1 top-1 sm:hidden block">
+    <div className="fixed  z-20 right-1 top-1 sm:hidden block">
       <Hamburger
         color="white"
         toggled={isOpen}

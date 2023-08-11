@@ -1,0 +1,60 @@
+"use client";
+import { uploadFile } from "@/utils/fileUpload";
+import Image from "next/image";
+import { FC, useState } from "react";
+import { toast } from "react-hot-toast";
+
+interface routeProps {}
+interface A extends React.FormEvent<HTMLFormElement> {
+  onChangeAssignmentStatus: (
+    selectType: string,
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => void;
+}
+const page = ({}) => {
+  const [file, setFile] = useState<File>();
+  const [filePath, setFilePath] = useState<string | null>(null);
+  const uploadImage = async (e: A) => {
+    e.preventDefault();
+    if (file) {
+      // let filepath = URL.createObjectURL(file);
+      // setFilePath(filepath);
+      // console.log(file.type);
+      // console.log(file.size);
+      // console.log(file.name);
+      const formdata = new FormData();
+      formdata.append("audio", file);
+      formdata.append("type", file.type);
+      console.log(file.name);
+      await fetch("/api/upload", {
+        
+      })
+      // toast.promise(uploadFile(filepath), {
+      //   loading: "Saving...",
+      //   success: <b>Settings saved!</b>,
+      //   error: <b>Could not save.</b>,
+      // });
+    } else {
+      toast.error("Please select a audio file");
+    }
+  };
+  const onChangess = (e: any) => {
+    const selectedImage = e.target?.files[0];
+    if (selectedImage) {
+      setFile(selectedImage);
+    } else {
+      alert("not get image");
+    }
+  };
+  return (
+    <form onSubmit={uploadImage}>
+      <input type="file" onChange={(e) => onChangess(e)} />
+      <button type="submit">submit</button>
+      {filePath && (
+        <Image src={filePath} alt="image of" width={50} height={30} />
+      )}
+    </form>
+  );
+};
+
+export default page;

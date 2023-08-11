@@ -14,3 +14,5 @@ interface UserType2 {
   gender?: string;
   image?: string;
 }
+
+

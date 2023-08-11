@@ -1,4 +1,13 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model, Document,models } from "mongoose";
+
+interface IUser extends Document {
+  email: string;
+  password: string;
+  name: string;
+  image: string;
+  gender: string;
+  playlist: Schema.Types.ObjectId[];
+}
 
 const UserSchema = new Schema({
   email: {
@@ -25,6 +34,9 @@ const UserSchema = new Schema({
   playlist: [{ type: Schema.Types.ObjectId }],
 });
 
+
 const User = models?.User || model("User", UserSchema);
 // above models.User check if the User models already exist or not
+
+// Pre-save middleware to add a default playlist
 export default User;

@@ -5,7 +5,20 @@ import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { connectDB } from "@/utils/connectDB";
 import User from "@/models/User";
-
+import PlayList from "@/models/PlayList";
+const addLikePlayList =async (username:string, id:any)=>{
+   // Replace "Playlist" with your actual playlist model name
+      const creator = username;
+      const name = "Liked Songs"
+      const userId = id;
+      // Create a default playlist and add its ObjectId to the user's playlist array
+      const defaultPlaylist = await new PlayList({
+          creator,
+          name,
+          user: userId
+      }).save();
+      return defaultPlaylist._id;
+}
 export function getGoogleCredentials() {
   const clientId = process.env.GOOGLE_CLIENT_ID;
   const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
@@ -56,14 +69,22 @@ export const authOptions: NextAuthOptions = {
           const userExists = await User.findOne({
             email: profile?.email,
           });
-
+          
           //if not create a user
           if (!userExists) {
-            await User.create({
+            const name = profile?.name;
+
+           const savedUser =  await  User.create({
               email: profile?.email,
               name: profile?.name,
               image: profile?.image,
             });
+            if(name){
+             const addedPlayList =  await addLikePlayList(name, savedUser._id);
+              savedUser.playlist.push(addedPlayList._id);
+              savedUser.save();
+            }
+
           }
 
           return true;
