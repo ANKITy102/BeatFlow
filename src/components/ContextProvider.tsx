@@ -19,7 +19,12 @@ interface ContextProps {
   setAudioPlaying: React.Dispatch<React.SetStateAction<boolean>>
 }
 export const Context = createContext<ContextProps>({
-  user: { _id: "", name: "", email: "", password: "" },
+  user: { id:"",name: "", email: "", password: "", playlist:[{
+    _id:"",
+    name:"",
+    creator:"",
+    songlength:0
+  }] },
   setUser: () => {},
   isOpen: false,
   setOpen: () => {},
@@ -48,10 +53,16 @@ export const ContextProvider = ({
   children: React.ReactNode;
 }) => {
   const initialUser = {
-    _id: "",
+    id: "",
     name: "",
     email: "",
     password: "",
+    playlist: [{
+      _id: "",
+      name:"",
+      creator: "",
+      songlenth: 0
+    }]
   };
   const initialSong = {
     author:"",
@@ -59,6 +70,7 @@ export const ContextProvider = ({
     url:"",
     _id : "",
     name: ""
+    
   }
 
   const [user, setUser] = useState<UserType>(initialUser);
@@ -72,6 +84,7 @@ export const ContextProvider = ({
     src: "",
     id: "",
   };
+
   const [audioElement, setAudioElement] = useState<any>(initialAudio);
 
   return (

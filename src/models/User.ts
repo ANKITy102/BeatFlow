@@ -1,4 +1,6 @@
 import { Schema, model, Document,models } from "mongoose";
+import PlayList from "./PlayList";
+import UserSong from "./UserSong";
 
 interface IUser extends Document {
   email: string;
@@ -31,7 +33,14 @@ const UserSchema = new Schema({
   gender: {
     type: String,
   },
-  playlist: [{ type: Schema.Types.ObjectId }],
+  playlist: [{ type: Schema.Types.ObjectId,ref: PlayList }],
+  LikedPlayList:{
+    type:[{
+    type:Schema.Types.ObjectId,
+    ref: UserSong
+  }],
+  default:[]
+}
 });
 
 

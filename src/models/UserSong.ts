@@ -8,7 +8,7 @@ const UserSongSchema = new Schema(
     },
     isLiked: {
       type: Boolean,
-      default: false,
+      default: true,
     },
   },
   {

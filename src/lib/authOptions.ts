@@ -54,11 +54,42 @@ export const authOptions: NextAuthOptions = {
     async session({ session }) {
       await connectDB();
 
-      const sessionUser = await User.findOne({
-        email: session.user.email,
-      });
+     
 
-      session.user.id = sessionUser._id.toString();
+      const userWithPlayList = await User.findOne({
+        email: session.user.email
+      })
+      .populate({
+        path: "playlist",
+        select: "_id name creator",
+        
+      })
+      .populate({
+        path:"LikedPlayList",
+        select:"_id song",
+        
+      })
+      .exec()
+      // console.log(userWithPlayList);
+     const modifiedPlaylist = userWithPlayList.playlist.map((plist : PlayListTypes2)=>{
+      return {
+        _id: plist._id.toString(),
+        name:plist.name,
+        creator:plist.creator
+      }
+     });
+     const modifiedLikedPlayList = userWithPlayList.LikedPlayList.map((plist:{
+      _id:string,
+      song:string
+     })=>{
+      return {
+        _id: plist._id.toString(),
+        song: plist.song.toString(),
+      }
+     })
+      session.user.playlist =modifiedPlaylist;
+      session.user.LikedPlayList = modifiedLikedPlayList;
+      session.user.id = (userWithPlayList._id).toString();
       return session;
     },
     async signIn({ account, profile }) {
@@ -72,19 +103,11 @@ export const authOptions: NextAuthOptions = {
           
           //if not create a user
           if (!userExists) {
-            const name = profile?.name;
-
-           const savedUser =  await  User.create({
+             await  User.create({
               email: profile?.email,
               name: profile?.name,
               image: profile?.image,
             });
-            if(name){
-             const addedPlayList =  await addLikePlayList(name, savedUser._id);
-              savedUser.playlist.push(addedPlayList._id);
-              savedUser.save();
-            }
-
           }
 
           return true;
@@ -97,7 +120,7 @@ export const authOptions: NextAuthOptions = {
           const userExists = await User.findOne({
             email: profile?.email,
           });
-
+       
           // //if not create a user
           if (!userExists) {
             await User.create({

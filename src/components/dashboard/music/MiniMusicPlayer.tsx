@@ -7,9 +7,15 @@ import { FcLike } from "react-icons/fc";
 import { BiLoaderCircle } from "react-icons/bi";
 import PlayingGig from "../../../assets/playing.gif";
 import Image from "next/image";
+import { toast } from "react-hot-toast";
 interface MiniMusicPlayerProps {
   item: songtype;
   idx: number;
+  // key: string;
+}
+interface GetResponse{
+  message:string,
+  status: string,
 }
 
 const MiniMusicPlayer: FC<MiniMusicPlayerProps> = ({ item, idx }) => {
@@ -29,7 +35,18 @@ const MiniMusicPlayer: FC<MiniMusicPlayerProps> = ({ item, idx }) => {
     setDuration(setthis);
     setIsLoading(false);
   };
-  const changeColor = () => {
+  const changeColor = async() => {
+    const addLikedSong = await fetch(`/api/song/likesong/${item._id}`,{
+      method: "GET",
+     
+    })
+    const result = await addLikedSong.json() as GetResponse;
+    if(!result){
+      return toast.error("Something Went wrong. please try again");
+    }
+    if(result.status==="fail"){
+      return toast.error("Something went wrong.")
+    }
     setLiked((prev) => !prev);
   };
   const startSong = (song: songtype) => {
@@ -67,7 +84,7 @@ const MiniMusicPlayer: FC<MiniMusicPlayerProps> = ({ item, idx }) => {
   /********************************************************************************************* */
   return (
     <tr
-      key={item._id}
+     
       className="overflow-auto group  hover:bg-slate-800 hover:cursor-pointer"
     >
       <td className="px-6 py-4 whitespace-nowrap">

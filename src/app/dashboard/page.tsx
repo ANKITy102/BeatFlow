@@ -11,14 +11,14 @@ import HamburgerIcon from "@/components/dashboard/Hamburger";
 interface pageProps {}
 
 const page: FC<pageProps> = async ({}) => {
-  const session = await getServerSession(authOptions);
-  if (!session) return notFound();
+
+
   return (
     <div className="w-screen h-screen bg-black">
-      <Sidebar />
+    
       <HamburgerIcon />
       <MusicTable />
-      <MusicPlayer />
+  
     </div>
   );
 };
