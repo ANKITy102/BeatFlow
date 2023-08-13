@@ -10,8 +10,8 @@ import { signOut } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import { BiLoaderCircle } from "react-icons/bi";
 import { Library } from 'lucide-react';
-import getUserData from "@/lib/getUser";
 import PlaylistSkeleton from "../music/PlaylistSkeleton";
+import PlayListForm from "../playlist/PlayListForm";
 
 interface SidebarProps {
   user:UserType
@@ -70,9 +70,12 @@ const Sidebar: FC<SidebarProps> = ({user}) => {
   useEffect(()=>{
     setUser(user);
   },[])
+  
+  const [showModal , setShowModal] = useState<boolean>(false);
   // console.log(user);
   return (
     <>
+        <PlayListForm showModal={showModal} setShowModal={setShowModal}/>
       <nav
         className={`fixed bg-black z-10 top-0 duration-200 left-0 w-full overflow-x-hidden h-full md:pb-24 pb-36 border-r text-white  space-y-8 md:w-[23rem] sm:w-80 lg:w-[30%]`}
         style={{
@@ -113,14 +116,20 @@ const Sidebar: FC<SidebarProps> = ({user}) => {
               <Library /> Your Library
 
                 </div>
-                <div className="font-normal hover:cursor-pointer text-2xl">
+                <div className="font-normal hover:cursor-pointer text-2xl"  onClick={()=>setShowModal(prev=> !prev)}>
                   +
                 </div>
               </div>
               
               <ul className="px-1 py-2 text-sm font-medium overflow-auto">
-                <PlaylistSkeleton name="Liked Songs" key="liked song" creator={`${user.LikedPlayList?.length} Songs`}/>
-              
+                <PlaylistSkeleton musicUrl={true} name="Liked Songs" key="liked song" creator={`${user.LikedPlayList?.length} Songs`}/>
+                {
+                  (user && user?.playlist) ? (
+                    user.playlist.map((elem)=>{
+                      return <PlaylistSkeleton musicUrl={false} name={elem.name} key={elem._id} creator={`${elem.creator}`}/>
+                    })
+                  ) : null
+                }
                 <li key="logout">
                     <button
                     onClick={()=>{

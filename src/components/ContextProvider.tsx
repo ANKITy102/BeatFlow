@@ -76,7 +76,7 @@ export const ContextProvider = ({
   const [user, setUser] = useState<UserType>(initialUser);
   const [isOpen, setOpen] = useState<boolean>(true);
   const [songs, setSongs] = useState<songtype[] | []>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [audioPlaying, setAudioPlaying] = useState<boolean> (false);
   const [currentPlayingSongData, setCurrentPlayingSongData] = useState<songtype>(initialSong);
   /****************Play song*************************************************** */
@@ -84,6 +84,10 @@ export const ContextProvider = ({
     src: "",
     id: "",
   };
+
+  const getPlayList = async() =>{
+    const playLists = await fetch("/api/song/get")
+  }
 
   const [audioElement, setAudioElement] = useState<any>(initialAudio);
 

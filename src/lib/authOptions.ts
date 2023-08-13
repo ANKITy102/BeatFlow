@@ -67,7 +67,6 @@ export const authOptions: NextAuthOptions = {
       .populate({
         path:"LikedPlayList",
         select:"_id song",
-        
       })
       .exec()
       // console.log(userWithPlayList);

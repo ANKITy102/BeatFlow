@@ -15,7 +15,7 @@ const page: FC<pageProps> = async ({}) => {
 
   return (
     <div className="w-screen h-screen bg-black">
-    
+      
       <HamburgerIcon />
       <MusicTable />
   

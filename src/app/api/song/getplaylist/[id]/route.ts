@@ -41,7 +41,7 @@ export async function GET(
          select:  "name url author poster_url"
         })
         return new Response(
-            JSON.stringify(playListSongs), {status:200}
+            JSON.stringify({playListSongs, status:"success"}), {status:200}
         )
 
       } else {
