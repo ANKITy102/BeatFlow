@@ -10,7 +10,7 @@ import { signOut } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import { BiLoaderCircle } from "react-icons/bi";
 import { Library } from 'lucide-react';
-import PlaylistSkeleton from "../music/PlaylistSkeleton";
+import PlaylistSkeleton from "../playlist/PlaylistSkeleton";
 import PlayListForm from "../playlist/PlayListForm";
 
 interface SidebarProps {
@@ -72,6 +72,7 @@ const Sidebar: FC<SidebarProps> = ({user}) => {
   },[])
   
   const [showModal , setShowModal] = useState<boolean>(false);
+
   // console.log(user);
   return (
     <>
@@ -122,11 +123,11 @@ const Sidebar: FC<SidebarProps> = ({user}) => {
               </div>
               
               <ul className="px-1 py-2 text-sm font-medium overflow-auto">
-                <PlaylistSkeleton musicUrl={true} name="Liked Songs" key="liked song" creator={`${user.LikedPlayList?.length} Songs`}/>
+                <PlaylistSkeleton  musicUrl={true} name="Liked Songs"  key="liked song" creator={`${user.LikedPlayList?.length} Songs`}/>
                 {
                   (user && user?.playlist) ? (
                     user.playlist.map((elem)=>{
-                      return <PlaylistSkeleton musicUrl={false} name={elem.name} key={elem._id} creator={`${elem.creator}`}/>
+                      return <PlaylistSkeleton musicUrl={false} name={elem.name}  key={elem._id} creator={`${elem.creator}`}/>
                     })
                   ) : null
                 }

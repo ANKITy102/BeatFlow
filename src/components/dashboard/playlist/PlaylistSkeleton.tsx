@@ -6,10 +6,12 @@ import playListLogo from "../../../assets/likedplaylistlogo.png"
 interface PlaylistSkeletonProps {
   name: string,
   creator: string  ,
-  musicUrl:boolean
+  musicUrl:boolean,
+ 
 }
 
-const PlaylistSkeleton: FC<PlaylistSkeletonProps> = ({musicUrl,name, creator}) => {
+const PlaylistSkeleton: FC<PlaylistSkeletonProps> =async ({ musicUrl,name, creator}) => {
+  
     // console.log(user);
   return <li >
   <button
